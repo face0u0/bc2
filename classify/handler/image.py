@@ -1,9 +1,7 @@
 import io
-import os
 import re
 import typing
 from classify.entity import DestFile, SourceFile
-from typing import List, Tuple
 from PIL import Image
 from PIL.ExifTags import TAGS
 from datetime import datetime
@@ -58,10 +56,10 @@ def _compressed_size(width: int, height: int) -> typing.Tuple[int, int]:
     per = (max_size/size)**0.5
     return (int(width*per), int(height*per))
 
-def _estimate_created(file: os.DirEntry):
+def _estimate_created(file: SourceFile):
     try :
         pattern = re.compile(r'\d+')
-        nums = pattern.findall(file.name)
+        nums = pattern.findall(file.rpath.stem)
         datesStr = "".join(nums)
         date = None
         if len(datesStr) > 16 or len(datesStr) < 9:

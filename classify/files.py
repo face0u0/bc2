@@ -4,7 +4,7 @@ from io import BytesIO
 import os
 from classify.entity import DestFile, SourceFile
 import pathlib
-from typing import List
+from typing import Generator, List, NoReturn
 
 def _scan_tree(path: pathlib.PurePath) -> List[os.DirEntry]:
     result = []
@@ -27,7 +27,7 @@ class SourceProvider:
     def count(self) -> int:
         return len(self._dir_entries)
 
-    def iter(self) -> List[SourceFile]:
+    def iter(self) -> Generator[SourceFile, NoReturn, NoReturn]:
         for file in self._dir_entries:
             if file.is_file():
                 rpath = pathlib.PurePath(file.path).relative_to(self._base) # 相対パスに変換

@@ -1,4 +1,5 @@
 import argparse, tqdm
+import sys
 from classify.handler.base import provide_handlers
 from classify.files import SourceProvider, save_file
 from pathlib import PurePath
@@ -17,6 +18,10 @@ def main():
     provider = SourceProvider(path_from)
     for file in tqdm.tqdm(provider.iter()):
         handler = provide_handlers(file)
-        dest = handler.convert(file)
-        save_file(dest, path_to)
+        try:
+            dest = handler.convert(file)
+            save_file(dest, path_to)
+        except Exception:
+            print(f"{file.rpath} export FAILED.", file=sys.stderr)
+
 

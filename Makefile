@@ -1,6 +1,6 @@
 INSTALL_PATH = /usr/local/bin/bc2
 
-.PHONY: install
+.PHONY: install uninstall
 
 install:
 	python3 -m pip install -r requirements.txt

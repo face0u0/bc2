@@ -22,7 +22,7 @@ def main():
             dest = handler.convert(file)
             dir = handler.save_dir()
             save_file(dest, path_to/dir)
-        except Exception:
-            print(f"{file.rpath} export FAILED.", file=sys.stderr)
+        except Exception as e:
+            print(f"{file.rpath} export FAILED. \n{e}", file=sys.stderr)
 
 

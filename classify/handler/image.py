@@ -18,7 +18,7 @@ class ImageHandler:
         
         cimg = None
         with io.BytesIO() as out:
-            format = source.rpath.suffix[1:]
+            format = source.rpath.suffix[1:].lower()
             if format == "jpg":
                 format = "jpeg"
             if exif != None:

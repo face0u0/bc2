@@ -20,9 +20,9 @@ def _sha256(io: BytesIO) -> str:
 
 class SourceProvider:
 
-    def __init__(self, path: pathlib.PurePath):
-        self._base = path
-        self._dir_entries = _scan_tree(path)
+    def __init__(self, base: pathlib.PurePath):
+        self._base = base
+        self._dir_entries = _scan_tree(base)
 
     def count(self) -> int:
         return len(self._dir_entries)
@@ -30,11 +30,11 @@ class SourceProvider:
     def iter(self) -> List[SourceFile]:
         for file in self._dir_entries:
             if file.is_file():
-                ppath = pathlib.PurePath(file.path)
+                rpath = pathlib.PurePath(file.path).relative_to(self._base) # 相対パスに変換
                 created = datetime.fromtimestamp(file.stat().st_ctime)
                 with open(file.path, "rb") as f:
                     io = BytesIO(f.read())
-                    yield SourceFile(ppath, created, io)
+                    yield SourceFile(rpath, created, io)
 
 def save_file(dest: DestFile, base: pathlib.PurePath):
     path = base / dest.rpath

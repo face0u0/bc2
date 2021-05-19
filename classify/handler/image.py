@@ -25,10 +25,10 @@ class ImageHandler:
         return DestFile(_filepath(source), cimg)
     
     def isInCharge(self, source: SourceFile) -> bool:
-        return source.path.suffix in ["png", "jpeg", "jpg"]
+        return source.rpath.suffix in ["png", "jpeg", "jpg"]
 
 def _exif_date(img: SourceFile) -> datetime:
-    exif = Image.open(img.path).getexif()
+    exif = Image.open(img.rpath).getexif()
     if 36867 in exif:
         return datetime.datetime.strptime(exif[36867], '%Y:%m:%d %H:%M:%S')
     else:
@@ -40,7 +40,7 @@ def _filepath(file: SourceFile) -> PurePath:
         time = _exif_date(file)
     elif _estimate_created(file):
         time = _estimate_created(file)
-    dirname = PurePath("images", time.strftime("%Y-%m"), file.path.name)
+    dirname = PurePath("images", time.strftime("%Y-%m"), file.rpath.name)
     return dirname
 
 def _compressed_size(width: int, height: int) -> typing.Tuple[int, int]:

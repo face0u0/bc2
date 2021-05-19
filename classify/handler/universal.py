@@ -4,7 +4,7 @@ from classify.entity import DestFile, SourceFile
 class UniversalHandler:
     def convert(self, source: SourceFile) -> DestFile:
         updated = source.created
-        dirpath = PurePath("others", updated.strftime("%Y-%m"), source.path.name)
+        dirpath = PurePath("others", updated.strftime("%Y-%m"), source.rpath.name)
         return DestFile(dirpath, source.data)
 
     def isInCharge(self, source: SourceFile) -> bool:

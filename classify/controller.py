@@ -1,4 +1,4 @@
-import argparse
+import argparse, tqdm
 from classify.handler.base import provide_handlers
 from classify.files import SourceProvider, save_file
 from pathlib import PurePath
@@ -15,7 +15,7 @@ def main():
     path_to = PurePath(args.path_to)
 
     provider = SourceProvider(path_from)
-    for file in provider.iter():
+    for file in tqdm.tqdm(provider.iter()):
         handler = provide_handlers(file)
         dest = handler.convert(file)
         save_file(dest, path_to)

@@ -5,11 +5,13 @@ from dataclasses import dataclass
 
 @dataclass
 class SourceFile:
-    path: pathlib.PurePath # .name, .suffix, .stem ...etc
+    # represents relative path
+    rpath: pathlib.PurePath
     created: datetime  # created timestamp
     data: BytesIO
 
 @dataclass
 class DestFile:
-    rpath: pathlib.PurePath # represents relative path
+    # represents relative path
+    rpath: pathlib.PurePath
     data: BytesIO

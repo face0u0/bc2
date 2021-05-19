@@ -5,7 +5,7 @@ from classify.files import SourceProvider, save_file
 from pathlib import PurePath
 
 def main():
-    parser = argparse.ArgumentParser(description='このプログラムの説明（なくてもよい）')
+    parser = argparse.ArgumentParser(description='files classify tool')
 
     parser.add_argument('path_from', help='path backup from')
     parser.add_argument('path_to', help='path backup to')

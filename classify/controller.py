@@ -16,7 +16,7 @@ def main():
     path_to = PurePath(args.path_to)
 
     provider = SourceProvider(path_from)
-    for file in tqdm.tqdm(provider.iter()):
+    for file in tqdm.tqdm(provider.iter(), total=provider.count()):
         handler = provide_handlers(file)
         try:
             dest = handler.convert(file)

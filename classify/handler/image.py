@@ -30,7 +30,7 @@ class ImageHandler:
         return DestFile(_filepath(source), cimg)
     
     def isInCharge(self, source: SourceFile) -> bool:
-        return source.rpath.suffix in [".png", ".jpeg", ".jpg"]
+        return source.rpath.suffix.lower() in [".png", ".jpeg", ".jpg"]
 
 def _exif_date(img: SourceFile) -> datetime:
     exif = Image.open(img.data).getexif()

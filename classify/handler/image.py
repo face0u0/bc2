@@ -17,20 +17,27 @@ class ImageHandler:
             exif = img.info['exif']
         if _compressed_size(img.width, img.height) != None:
             img = img.resize(_compressed_size(img.width, img.height), Image.LANCZOS)
-        cimg = io.BytesIO()
-        if exif != None:
-            img.save(cimg, exif=exif)
-        else:
-            img.save(cimg)
+        
+        cimg = None
+        with io.BytesIO() as out:
+            format = source.rpath.suffix[1:]
+            if format == "jpg":
+                format = "jpeg"
+            if exif != None:
+                img.save(out, exif=exif, format=format)
+            else:
+                img.save(out, format=format)
+            cimg = io.BytesIO(out.getvalue())
+
         return DestFile(_filepath(source), cimg)
     
     def isInCharge(self, source: SourceFile) -> bool:
-        return source.rpath.suffix in ["png", "jpeg", "jpg"]
+        return source.rpath.suffix in [".png", ".jpeg", ".jpg"]
 
 def _exif_date(img: SourceFile) -> datetime:
-    exif = Image.open(img.rpath).getexif()
+    exif = Image.open(img.data).getexif()
     if 36867 in exif:
-        return datetime.datetime.strptime(exif[36867], '%Y:%m:%d %H:%M:%S')
+        return datetime.strptime(exif[36867], '%Y:%m:%d %H:%M:%S')
     else:
         return None
 

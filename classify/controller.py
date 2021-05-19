@@ -20,7 +20,8 @@ def main():
         handler = provide_handlers(file)
         try:
             dest = handler.convert(file)
-            save_file(dest, path_to)
+            dir = handler.save_dir()
+            save_file(dest, path_to/dir)
         except Exception:
             print(f"{file.rpath} export FAILED.", file=sys.stderr)
 

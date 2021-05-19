@@ -44,6 +44,6 @@ def save_file(dest: DestFile, base: pathlib.PurePath):
                 return
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'wb') as f:
-        f.write(dest.data.read())
+        f.write(dest.data.getvalue())
     
 

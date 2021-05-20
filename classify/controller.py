@@ -13,11 +13,9 @@ def main():
 
     args = parser.parse_args()
 
-    path_from = PurePath(args.path_from)
-    path_to = PurePath(args.path_to)
-
-    provider = SourceProvider(path_from)
-    writer = DestWriter(path_to)
+    provider = SourceProvider(PurePath(args.path_from))
+    writer = DestWriter(PurePath(args.path_to))
+    
     for file in tqdm.tqdm(provider.iter(), total=provider.count()):
         handler = provide_handlers(file)
         try:

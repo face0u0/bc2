@@ -10,5 +10,5 @@ class MovieHandler:
     def is_in_charge(self, source: SourceFile) -> bool:
         return source.rpath.suffix.lower() in [".mov", ".mp4", ".mkv"]
     
-    def save_dir(self) -> PurePath:
+    def base_dir(self) -> PurePath:
         return PurePath("movies")

@@ -1,7 +1,8 @@
 import argparse, tqdm
+from classify.entity import DestFile
 import sys
 from classify.handler.base import provide_handlers
-from classify.files import SourceProvider, save_file
+from classify.files import DestWriter, SourceProvider
 from pathlib import PurePath
 
 def main():
@@ -16,12 +17,13 @@ def main():
     path_to = PurePath(args.path_to)
 
     provider = SourceProvider(path_from)
+    writer = DestWriter(path_to)
     for file in tqdm.tqdm(provider.iter(), total=provider.count()):
         handler = provide_handlers(file)
         try:
             dest = handler.convert(file)
-            dir = handler.save_dir()
-            save_file(dest, path_to/dir)
+            dir = handler.base_dir()
+            writer.save(dir/dest.rpath, dest.data)
         except Exception as e:
             print(f"{file.rpath} export FAILED. \n{e}", file=sys.stderr)
 

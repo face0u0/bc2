@@ -10,5 +10,5 @@ class UniversalHandler:
     def is_in_charge(self, source: SourceFile) -> bool:
         return True
 
-    def save_dir(self) -> PurePath:
+    def base_dir(self) -> PurePath:
         return PurePath("others")

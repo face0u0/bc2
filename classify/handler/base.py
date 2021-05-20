@@ -14,7 +14,7 @@ class Handler:
         pass
 
     # 保存先ディレクトリのベース部分を返す（画像なら"images/"とか）
-    def save_dir(self) -> PurePath:
+    def base_dir(self) -> PurePath:
         pass
 
 def provide_handlers(source: SourceFile) -> Handler:

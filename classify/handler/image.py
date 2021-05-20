@@ -32,7 +32,7 @@ class ImageHandler:
     def is_in_charge(self, source: SourceFile) -> bool:
         return source.rpath.suffix.lower() in [".png", ".jpeg", ".jpg"]
 
-    def save_dir(self) -> PurePath:
+    def base_dir(self) -> PurePath:
         return PurePath("images")
 
 def _exif_date(img: SourceFile) -> datetime:

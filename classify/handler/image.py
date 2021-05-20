@@ -10,6 +10,7 @@ from pathlib import PurePath
 class ImageHandler:
     def convert(self, source: SourceFile) -> DestFile:
         img = Image.open(source.data)
+        format = img.format # 圧縮時に消える場合があるため保持
         exif = None
         if "exif" in img.info:
             exif = img.info['exif']
@@ -18,9 +19,6 @@ class ImageHandler:
         
         cimg = None
         with io.BytesIO() as out:
-            format = source.rpath.suffix[1:].lower()
-            if format == "jpg":
-                format = "jpeg"
             if exif != None:
                 img.save(out, exif=exif, format=format)
             else:
@@ -68,9 +66,9 @@ def _estimate_created(file: SourceFile):
         if len(datesStr) > 16 or len(datesStr) < 9:
             return None
         elif len(datesStr) == 13:
-            date = datetime.datetime.fromtimestamp(int(datesStr[:10]))
+            date = datetime.fromtimestamp(int(datesStr[:10]))
         elif len(datesStr) == 14 or len(datesStr) == 16:
-            date = datetime.datetime(int(datesStr[:4]), int(datesStr[4:6]), int(datesStr[6:8]))
+            date = datetime(int(datesStr[:4]), int(datesStr[4:6]), int(datesStr[6:8]))
         else:
             return None
         if date.year <= 2000 or date.year >= 2050:
